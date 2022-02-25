@@ -6,10 +6,6 @@ y = 500
 step_size = 20
 max_size = x * y / (step_size**2)
 
-# window = pyglet.window.Window(x, y)
-# pyglet.gl.glClearColor(200, 200, 200, 1)
-
-
 class Letters(pyglet.window.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
@@ -50,7 +46,6 @@ class Letters(pyglet.window.Window):
                     x=self.x, y=self.y, radius=step_size / 2, color=(100, 0, 200), batch=self.batch
                 )
             )
-            # print(self.step)
 
         self.pos_update()
         self.step += 1
@@ -74,14 +69,10 @@ class Letters(pyglet.window.Window):
             if self.turncount % 2 == 0:
                 self.numstep += 1
 
-    # @window.event
     def on_draw(self):
         self.clear()
         self.batch.draw()
-        # print(letters.time)
-
 
 letters = Letters(x, y)
 pyglet.clock.schedule_interval(letters.update, 1 / 1000)
 pyglet.app.run()
-
