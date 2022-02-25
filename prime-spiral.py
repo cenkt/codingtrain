@@ -4,6 +4,7 @@ import math
 x = 500
 y = 500
 step_size = 20
+max_size = x * y / (step_size**2)
 
 # window = pyglet.window.Window(x, y)
 # pyglet.gl.glClearColor(200, 200, 200, 1)
@@ -12,7 +13,7 @@ step_size = 20
 class Letters(pyglet.window.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
-        self.batch = pyglet.graphics.Batch()
+        self.batch = pyglet.shapes.Batch()
         self.time = 0
         self.step = 1
         self.turncount = 1
@@ -20,6 +21,7 @@ class Letters(pyglet.window.Window):
         self.turn_angle = 0
         self.x = self.width / 2
         self.y = self.height / 2
+        self.label_list = []
 
     def check_prime(self):
         if self.step == 1:
@@ -43,12 +45,16 @@ class Letters(pyglet.window.Window):
             #     y=self.y,
             #     batch=self.batch,
             # )
-            self.label = pyglet.shapes.Circle(
-                x=self.x, y=self.y, radius=step_size / 2, color=(100, 0, 200), batch=self.batch
+            self.label_list.append(
+                pyglet.shapes.Circle(
+                    x=self.x, y=self.y, radius=step_size / 2, color=(100, 0, 200), batch=self.batch
+                )
             )
+            # print(self.step)
+
         self.pos_update()
         self.step += 1
-        if self.step > 500:
+        if self.step > max_size:
             pyglet.clock.unschedule(letters.update)
 
     def pos_update(self):
@@ -70,7 +76,7 @@ class Letters(pyglet.window.Window):
 
     # @window.event
     def on_draw(self):
-        # self.clear()
+        self.clear()
         self.batch.draw()
         # print(letters.time)
 
@@ -78,3 +84,4 @@ class Letters(pyglet.window.Window):
 letters = Letters(x, y)
 pyglet.clock.schedule_interval(letters.update, 1 / 1000)
 pyglet.app.run()
+
